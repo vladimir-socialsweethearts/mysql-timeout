@@ -17,20 +17,49 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.http import HttpResponse
 from django.db import connection
+from django.contrib.auth.models import User
 import time
+
+TIMEOUT = 2
 
 
 def home(request):
     with connection.cursor() as cursor:
         cursor.execute('SHOW VARIABLES')
         print(cursor.fetchone())
-        time.sleep(5)
+        time.sleep(TIMEOUT)
         cursor.execute('SHOW VARIABLES')
         print(cursor.fetchone())
     return HttpResponse('foo')
 
 
+def home2(request):
+    list(User.objects.all())
+    time.sleep(TIMEOUT)
+    list(User.objects.all())
+    return HttpResponse('foo')
+
+
+def home3(request):
+    user = email = password = str(int(time.time()))
+    User.objects.create_superuser(user, email, password)
+    time.sleep(TIMEOUT)
+    user = email = password = str(int(time.time()))
+    User.objects.create_superuser(user, email, password)
+    return HttpResponse('foo')
+
+
+def home4(request):
+    User.objects.get(id=1)
+    time.sleep(TIMEOUT)
+    User.objects.get(id=1)
+    return HttpResponse('foo')
+
+
 urlpatterns = [
-    url(r'', home),
+    url(r'^$', home),
+    url(r'^test2', home2),
+    url(r'^test3', home3),
+    url(r'^test4', home4),
     url(r'^admin/', admin.site.urls),
 ]

@@ -1,2 +1,2 @@
 [mysqld]
-wait_timeout=30
+wait_timeout=3

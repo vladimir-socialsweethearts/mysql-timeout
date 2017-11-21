@@ -22,3 +22,6 @@ services:
       - ./mysql_timeout:/code
     ports:
       - 8000:8000
+#    command: ./manage.py migrate
+    depends_on:
+      - db

@@ -75,12 +75,14 @@ WSGI_APPLICATION = 'mysql_timeout.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'mysql_timeout.backend',
+        # 'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'db',
         'PORT': '3306',
+        'CONN_MAX_AGE': 60,
     }
 }
 
