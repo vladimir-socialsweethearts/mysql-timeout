@@ -15,7 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.http import HttpResponse
+from django.db import connection
+import time
+
+
+def home(request):
+    with connection.cursor() as cursor:
+        cursor.execute('SHOW VARIABLES')
+        print(cursor.fetchone())
+        time.sleep(5)
+        cursor.execute('SHOW VARIABLES')
+        print(cursor.fetchone())
+    return HttpResponse('foo')
+
 
 urlpatterns = [
+    url(r'', home),
     url(r'^admin/', admin.site.urls),
 ]
