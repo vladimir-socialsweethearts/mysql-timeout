@@ -10,3 +10,14 @@ services:
       - 3306:3306
     volumes:
       - ./docker/mysql-custom.cnf:/etc/mysql/conf.d/mysql-custom.cnf
+
+  app:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - ./mysql_timeout:/code
+    ports:
+      - 8000:8000
