@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import logging
+
 from django.conf.urls import url
 from django.contrib import admin
 from django.http import HttpResponse
@@ -21,15 +23,16 @@ from django.contrib.auth.models import User
 import time
 
 TIMEOUT = 2
+logger = logging.getLogger('main')
 
 
 def home(request):
     with connection.cursor() as cursor:
         cursor.execute('SHOW VARIABLES')
-        print(cursor.fetchone())
+        logger.info(cursor.fetchone())
         time.sleep(TIMEOUT)
         cursor.execute('SHOW VARIABLES')
-        print(cursor.fetchone())
+        logger.info(cursor.fetchone())
     return HttpResponse('foo')
 
 
