@@ -37,6 +37,8 @@ def home(request):
 
 
 def home2(request):
+    index = request.GET.get('index', '')
+    logger.info('Task {}'.format(index))
     list(User.objects.all())
     time.sleep(TIMEOUT)
     list(User.objects.all())

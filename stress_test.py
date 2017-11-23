@@ -4,12 +4,20 @@ from queue import Queue
 import requests
 
 
+def filter_exception(html):
+    html = filter(lambda x: 'h1' in x or 'exception_value' in x, html.splitlines())
+    return '\n'.join(html)
+
+
 def make_request(num, q):
     print('start thread {}'.format(num))
     while not q.empty():
         index = q.get()
-        response = requests.get('http://localhost:8000/test2')
-        print('Task {} status_code {}'.format(index, response.status_code))
+        response = requests.get('http://localhost:8000/test2?index={}'.format(index))
+        if response.status_code == 500:
+            print('Task {} status_code {}: {}'.format(index, response.status_code, filter_exception(response.text)))
+        else:
+            print('Task {} status_code {}'.format(index, response.status_code))
     print('exit thread {}'.format(num))
 
 
